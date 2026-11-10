@@ -244,10 +244,10 @@ public class ControlFlowTests
     {
         var program = new Program();
         program.Mark("target");
-        program.Emit(new Move(Register.t0, "target"));
         program.Emit(new Move(Register.a0, 1));
         program.Emit(new Exit());
         program.Mark("main");
+        program.Emit(new Move(Register.t0, "target"));
         program.Emit(new JumpFalsePa(Register.t0));
         program.Mark("exit");
         

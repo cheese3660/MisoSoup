@@ -9,6 +9,22 @@ public class DataTransferTests
     [TestCase(MisaType.Int16, -420)]
     [TestCase(MisaType.Uint32, 666000)]
     [TestCase(MisaType.Int32, -250000)]
+    [TestCase(MisaType.Uint8, 0)]
+    [TestCase(MisaType.Uint8, 255)]
+    [TestCase(MisaType.Uint8, 128)]
+    [TestCase(MisaType.Int8, -128)]
+    [TestCase(MisaType.Int8, 127)]
+    [TestCase(MisaType.Int8, -1)]
+    [TestCase(MisaType.Uint16, 65535)]
+    [TestCase(MisaType.Uint16, 32768)]
+    [TestCase(MisaType.Int16, -32768)]
+    [TestCase(MisaType.Int16, 32767)]
+    [TestCase(MisaType.Int16, -1)]
+    [TestCase(MisaType.Uint32, -1)]
+    [TestCase(MisaType.Uint32, int.MinValue)]
+    [TestCase(MisaType.Int32, int.MinValue)]
+    [TestCase(MisaType.Int32, int.MaxValue)]
+    [TestCase(MisaType.Int32, 0)]
     public static void LoadWorks(MisaType type, int val)
     {
         var program = new Program();
@@ -34,6 +50,20 @@ public class DataTransferTests
     [TestCase(MisaType.Int16, -420)]
     [TestCase(MisaType.Uint32, 666000)]
     [TestCase(MisaType.Int32, -250000)]
+    [TestCase(MisaType.Uint8, 0)]
+    [TestCase(MisaType.Uint8, 255)]
+    [TestCase(MisaType.Uint8, 128)]
+    [TestCase(MisaType.Int8, -128)]
+    [TestCase(MisaType.Int8, 127)]
+    [TestCase(MisaType.Int8, -1)]
+    [TestCase(MisaType.Uint16, 65535)]
+    [TestCase(MisaType.Uint16, 32768)]
+    [TestCase(MisaType.Int16, -32768)]
+    [TestCase(MisaType.Int16, 32767)]
+    [TestCase(MisaType.Uint32, int.MaxValue)]
+    [TestCase(MisaType.Int32, int.MinValue)]
+    [TestCase(MisaType.Int32, int.MaxValue)]
+    [TestCase(MisaType.Int32, -1)]
     public static void StoreWorks(MisaType type, int val)
     {
         var program = new Program();
@@ -83,6 +113,13 @@ public class DataTransferTests
     [TestCase(0, 4)]
     [TestCase(1, 4)]
     [TestCase(2, 4)]
+    [TestCase(-1, 4)]
+    [TestCase(-2, 1)]
+    [TestCase(1, -4)]
+    [TestCase(3, 0)]
+    [TestCase(0, 0)]
+    [TestCase(5, 3)]
+    [TestCase(2, 8)]
     public static void ComputeEffectiveAddressWorks(int index, int scale)
     {
         var program = new Program();
@@ -106,6 +143,9 @@ public class DataTransferTests
     [TestCase(8, 420)]
     [TestCase(12, 42069)]
     [TestCase(16, 6742069)]
+    [TestCase(1, 17407)]
+    [TestCase(2, 4456447)]
+    [TestCase(3, 1140850687)]
     public static void LoadEffectiveWorks(int displacement, int expectedValue)
     {
         var program = new Program();
@@ -131,10 +171,13 @@ public class DataTransferTests
     [TestCase(8)]
     [TestCase(12)]
     [TestCase(16)]
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
     public static void StoreEffectiveWorks(int displacement)
     {
         var program = new Program();
-        program.Mark("main");
+        program.Mark("data");
         program.Emit(new Reserve(MisaType.Int32, 5));
         program.Mark("main");
         program.Emit(new ToProgramAbsolute(Register.ea, "data"));
@@ -182,7 +225,7 @@ public class DataTransferTests
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
 
-        Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(emulator.Memory.ResolveLabel("main")));
+        Assert.That(emulator.GetRegisterS(Register.ea), Is.EqualTo(emulator.Memory.ResolveLabel("main")));
     }
 
     [Test]

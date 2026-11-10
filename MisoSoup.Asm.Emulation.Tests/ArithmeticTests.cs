@@ -21,6 +21,12 @@ public class ArithmeticTests
     [TestCase(-238590805, 551018501)]
     [TestCase(-475971829, -122431872)]
     [TestCase(-230418222, 893319858)]
+    [TestCase(int.MinValue, 1)]
+    [TestCase(int.MaxValue, -1)]
+    [TestCase(0, int.MinValue)]
+    [TestCase(int.MinValue, int.MinValue)]
+    [TestCase(-1, int.MaxValue)]
+    [TestCase(0, 0)]
     public void SubtractWorks(int a, int b)
     {
         var program = new Program();
@@ -54,6 +60,12 @@ public class ArithmeticTests
     [TestCase(-944437417, -536187528)]
     [TestCase(-176554258, 988309128)]
     [TestCase(-180651937, -847743435)]
+    [TestCase(int.MaxValue, 1)]
+    [TestCase(int.MinValue, -1)]
+    [TestCase(int.MinValue, int.MinValue)]
+    [TestCase(int.MaxValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MinValue)]
+    [TestCase(0, 0)]
     public void AddWorks(int a, int b)
     {
         var program = new Program();
@@ -75,6 +87,11 @@ public class ArithmeticTests
     [TestCase(1535325, 16)]
     [TestCase(5, 3)]
     [TestCase(5203324, 32)]
+    [TestCase(int.MaxValue, 1)]
+    [TestCase(-1, 1)]
+    [TestCase(-3, 5)]
+    [TestCase(int.MaxValue - 1, 2)]
+    [TestCase(0, 0)]
     public void IncrementWorks(int incrementBase, int times)
     {
         var program = new Program();
@@ -97,6 +114,11 @@ public class ArithmeticTests
     [TestCase(1535325, 16)]
     [TestCase(5, 3)]
     [TestCase(5203324, 32)]
+    [TestCase(int.MinValue, 1)]
+    [TestCase(0, 1)]
+    [TestCase(2, 5)]
+    [TestCase(int.MinValue + 1, 2)]
+    [TestCase(0, 0)]
     public void DecrementWorks(int decrementBase, int times)
     {
         var program = new Program();
@@ -120,6 +142,13 @@ public class ArithmeticTests
     [TestCase(32000, 64000)]
     [TestCase(-32000, 64000)]
     [TestCase(-32000, -64000)]
+    [TestCase(65536, 65536)]
+    [TestCase(int.MaxValue, 2)]
+    [TestCase(int.MinValue, -1)]
+    [TestCase(int.MinValue, 2)]
+    [TestCase(-1, -1)]
+    [TestCase(0, int.MinValue)]
+    [TestCase(46341, 46341)]
     public void MultiplyWorks(int a, int b)
     {
         var program = new Program();
@@ -141,6 +170,14 @@ public class ArithmeticTests
     [TestCase(-65536, 65536)]
     [TestCase(2_000_000_000, 5)]
     [TestCase(-2_000_000_000, 5)]
+    [TestCase(-1, 1)]
+    [TestCase(-1, -1)]
+    [TestCase(1, int.MinValue)]
+    [TestCase(int.MinValue, int.MinValue)]
+    [TestCase(int.MinValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MaxValue)]
+    [TestCase(0, int.MinValue)]
+    [TestCase(5, 3)]
     public void MultiplyHighWorks(int a, int b)
     {
         var program = new Program();
@@ -166,6 +203,11 @@ public class ArithmeticTests
     [TestCase(-5, 10, -30 )]
     [TestCase(5, -10, -30)]
     [TestCase(-5, -10, -30 )]
+    [TestCase(int.MaxValue, 2, 2)]
+    [TestCase(int.MinValue, -1, 0)]
+    [TestCase(65536, 65536, -1)]
+    [TestCase(0, int.MaxValue, int.MinValue)]
+    [TestCase(int.MaxValue, 1, 1)]
     public void FusedMultiplyAddWorks(int a, int b, int c)
     {
         var program = new Program();
@@ -187,6 +229,16 @@ public class ArithmeticTests
     [TestCase(-2, 3, -8)]
     [TestCase(10, 5, 100_000)]
     [TestCase(366634, 0, 1)]
+    [TestCase(2, 31, int.MinValue)]
+    [TestCase(2, 32, 0)]
+    [TestCase(-2, 31, int.MinValue)]
+    [TestCase(0, 0, 1)]
+    [TestCase(0, 5, 0)]
+    [TestCase(-1, 3, -1)]
+    [TestCase(-1, 4, 1)]
+    [TestCase(3, 21, 1870418611)]
+    [TestCase(int.MaxValue, 1, int.MaxValue)]
+    [TestCase(int.MaxValue, 2, 1)]
     public void PowerWorks(int b, int e, int r)
     {
         var program = new Program();
@@ -208,6 +260,16 @@ public class ArithmeticTests
     [TestCase(2_000_000_000, 1_000_000)]
     [TestCase(51, 5)]
     [TestCase(6, -3)]
+    [TestCase(-51, 5)]
+    [TestCase(51, -5)]
+    [TestCase(-51, -5)]
+    [TestCase(3, 5)]
+    [TestCase(-3, 5)]
+    [TestCase(0, 7)]
+    [TestCase(int.MinValue, 1)]
+    [TestCase(int.MinValue, 2)]
+    [TestCase(int.MaxValue, -1)]
+    [TestCase(int.MinValue, int.MaxValue)]
     public void DivideWorks(int a, int b)
     {
         var program = new Program();
@@ -229,6 +291,14 @@ public class ArithmeticTests
     [TestCase(-51, 5)]
     [TestCase(51, -5)]
     [TestCase(-51, -5)]
+    [TestCase(-50, 5)]
+    [TestCase(0, 5)]
+    [TestCase(3, 5)]
+    [TestCase(-3, 5)]
+    [TestCase(int.MinValue, 2)]
+    [TestCase(int.MinValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MinValue)]
+    [TestCase(int.MaxValue, 1)]
     public void RemainderWorks(int a, int b)
     {
         var program = new Program();
@@ -262,6 +332,15 @@ public class ArithmeticTests
     [TestCase(-51, 5)]
     [TestCase(51, -5)]
     [TestCase(-51, -5)]
+    [TestCase(-50, 5)]
+    [TestCase(50, -5)]
+    [TestCase(0, 5)]
+    [TestCase(-1, 5)]
+    [TestCase(1, -5)]
+    [TestCase(3, 5)]
+    [TestCase(int.MinValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MinValue)]
+    [TestCase(int.MinValue, 2)]
     public void ModuloWorks(int a, int b)
     {
         var program = new Program();
@@ -285,6 +364,10 @@ public class ArithmeticTests
     [TestCase(-5)]
     [TestCase(-31232)]
     [TestCase(-1241244)]
+    [TestCase(0)]
+    [TestCase(int.MinValue)]
+    [TestCase(int.MaxValue)]
+    [TestCase(int.MinValue + 1)]
     public void NegateWorks(int a)
     {
         var program = new Program();
@@ -308,6 +391,10 @@ public class ArithmeticTests
     [TestCase(-5)]
     [TestCase(-31232)]
     [TestCase(-1241244)]
+    [TestCase(0)]
+    [TestCase(int.MaxValue)]
+    [TestCase(int.MinValue + 1)]
+    [TestCase(-1)]
     public void AbsoluteWorks(int a)
     {
         var program = new Program();
@@ -332,6 +419,9 @@ public class ArithmeticTests
     [TestCase(-5)]
     [TestCase(-31232)]
     [TestCase(-1241244)]
+    [TestCase(int.MinValue)]
+    [TestCase(int.MaxValue)]
+    [TestCase(-1)]
     public void SignWorks(int a)
     {
         var program = new Program();
@@ -365,6 +455,11 @@ public class ArithmeticTests
     [TestCase(698812156, 962713311)]
     [TestCase(73417084, -703536015)]
     [TestCase(-271277638, -75047398)]
+    [TestCase(-1, 1)]
+    [TestCase(5, 5)]
+    [TestCase(int.MinValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MinValue)]
+    [TestCase(0, -1)]
     public void MinimumWorks(int a, int b)
     {
         var program = new Program();
@@ -398,6 +493,11 @@ public class ArithmeticTests
     [TestCase(583464561, -575815537)]
     [TestCase(-584090684, -623272384)]
     [TestCase(417046445, 360917161)]
+    [TestCase(-1, 1)]
+    [TestCase(5, 5)]
+    [TestCase(int.MinValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MinValue)]
+    [TestCase(0, -1)]
     public void MaximumWorks(int a, int b)
     {
         var program = new Program();
@@ -418,6 +518,14 @@ public class ArithmeticTests
     [TestCase(-531254, -20, 30)]
     [TestCase(5, 0, 10)]
     [TestCase(52523253, -1000, -100)]
+    [TestCase(-20, -20, 30)]
+    [TestCase(30, -20, 30)]
+    [TestCase(-21, -20, 30)]
+    [TestCase(31, -20, 30)]
+    [TestCase(7, 7, 7)]
+    [TestCase(int.MinValue, int.MinValue, int.MaxValue)]
+    [TestCase(int.MaxValue, int.MinValue, int.MaxValue)]
+    [TestCase(-1, 0, int.MaxValue)]
     public void ClampWorks(int a, int b, int c)
     {
         var program = new Program();
@@ -437,6 +545,12 @@ public class ArithmeticTests
     [Test]
     [TestCase(4_000_000_000, 4_000_000_000)]
     [TestCase(4_000_000_000, 5u)]
+    [TestCase(uint.MaxValue, uint.MaxValue)]
+    [TestCase(uint.MaxValue, 1u)]
+    [TestCase(0x80000000u, 2u)]
+    [TestCase(0x80000000u, 0x80000000u)]
+    [TestCase(0u, uint.MaxValue)]
+    [TestCase(0xFFFFu, 0x10001u)]
     public void MultiplyHighUnsignedWorks(uint a, uint b)
     {
         var program = new Program();
@@ -456,6 +570,13 @@ public class ArithmeticTests
     [Test]
     [TestCase(4_000_000_000, 5u)]
     [TestCase(4_000_000_001, 5u)]
+    [TestCase(uint.MaxValue, 1u)]
+    [TestCase(uint.MaxValue, 2u)]
+    [TestCase(0x80000000u, uint.MaxValue)]
+    [TestCase(5u, uint.MaxValue)]
+    [TestCase(uint.MaxValue, uint.MaxValue)]
+    [TestCase(0x80000000u, 2u)]
+    [TestCase(0u, 3u)]
     public void DivideUnsignedWorks(uint a, uint b)
     {
         var program = new Program();
@@ -474,6 +595,13 @@ public class ArithmeticTests
 
     [Test]
     [TestCase(4_000_000_001, 5u)]
+    [TestCase(uint.MaxValue, 2u)]
+    [TestCase(0x80000000u, 3u)]
+    [TestCase(5u, uint.MaxValue)]
+    [TestCase(0xFFFFFFFEu, uint.MaxValue)]
+    [TestCase(uint.MaxValue, 0x80000000u)]
+    [TestCase(0u, 7u)]
+    [TestCase(4_000_000_000u, 4_000_000_000u)]
     public void RemainderUnsignedWorks(uint a, uint b)
     {
         var program = new Program();
@@ -493,6 +621,10 @@ public class ArithmeticTests
     [Test]
     [TestCase(4_000_000_000u, 5u)]
     [TestCase(4_000_000_000, 4_000_000_001u)]
+    [TestCase(0u, uint.MaxValue)]
+    [TestCase(0x7FFFFFFFu, 0x80000000u)]
+    [TestCase(uint.MaxValue, 1u)]
+    [TestCase(5u, 5u)]
     public void MinimumUnsignedWorks(uint a, uint b)
     {
         var program = new Program();
@@ -512,6 +644,10 @@ public class ArithmeticTests
     [Test]
     [TestCase(4_000_000_000u, 5u)]
     [TestCase(4_000_000_000, 4_000_000_001u)]
+    [TestCase(0u, uint.MaxValue)]
+    [TestCase(0x7FFFFFFFu, 0x80000000u)]
+    [TestCase(uint.MaxValue, 1u)]
+    [TestCase(5u, 5u)]
     public void MaximumUnsignedWorks(uint a, uint b)
     {
         var program = new Program();
@@ -532,6 +668,12 @@ public class ArithmeticTests
     [TestCase(4_000_000_000u, 4_000_000_001u, 4_000_000_005u)]
     [TestCase(4_000_000_003u, 4_000_000_001u, 4_000_000_005u)]
     [TestCase(4_000_000_007u, 4_000_000_001u, 4_000_000_005u)]
+    [TestCase(0x80000000u, 0u, 0x7FFFFFFFu)]
+    [TestCase(5u, 0x80000000u, uint.MaxValue)]
+    [TestCase(uint.MaxValue, 0u, uint.MaxValue)]
+    [TestCase(0u, 0u, uint.MaxValue)]
+    [TestCase(7u, 7u, 7u)]
+    [TestCase(0x7FFFFFFFu, 0x80000000u, uint.MaxValue)]
     public void ClampUnsignedWorks(uint a, uint b, uint c)
     {
         var program = new Program();
