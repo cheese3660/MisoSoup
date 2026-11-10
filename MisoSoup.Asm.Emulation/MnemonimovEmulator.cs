@@ -50,6 +50,8 @@ public partial class MnemonimovEmulator
         set => _argumentRegisters[7] = value;
     }
 
+    private static readonly bool[] WriteableSpecialRegisters = [false, true, true, false, false, true, true, true];
+
     public MachineMemory Memory;
     
     public MnemonimovEmulator(int stackSize, Program emulatedProgram)
@@ -71,9 +73,37 @@ public partial class MnemonimovEmulator
             _ => throw new ArgumentOutOfRangeException()
         };
 
+    public void SetRegisterS(Register register, int value)
+    {
+        switch (register.Bank)
+        {
+            case RegisterBank.Temporary:
+                _temporaryRegisters[register.Number] = value;
+                break;
+            case RegisterBank.Argument:
+                _argumentRegisters[register.Number] = value;
+                break;
+            case RegisterBank.Saved:
+                _savedRegisters[register.Number] = value;
+                break;
+            case RegisterBank.Special:
+                if (WriteableSpecialRegisters[register.Number])
+                {
+                    _specialRegisters[register.Number] = value;
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     public uint GetRegisterU(Register register) => Unsafe.BitCast<int, uint>(GetRegisterS(register));
 
+    public void SetRegisterU(Register register, uint value) => SetRegisterS(register, Unsafe.BitCast<uint, int>(value));
+    
     public float GetRegisterF(Register register) => Unsafe.BitCast<int, float>(GetRegisterS(register));
+    
+    public void SetRegisterF(ref Register register, float value) => SetRegisterS(register, Unsafe.BitCast<float, int>(value));
 
     public List<int> GetRegisterVectorS(RegisterVector registers)
     {
