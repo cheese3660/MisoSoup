@@ -17,16 +17,16 @@ public class DataTransferTests
         program.Mark("main");
         program.Emit(new Load(type, Register.a0, "data"));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(4, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(val));
     }
-    
+
     [Test]
     [TestCase(MisaType.Uint8, 67)]
     [TestCase(MisaType.Int8, -5)]
@@ -42,10 +42,10 @@ public class DataTransferTests
         program.Mark("main");
         program.Emit(new Store(type, "data", val));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(4, program);
         emulator.RunProcess("main");
 
@@ -89,13 +89,13 @@ public class DataTransferTests
         program.Mark("main");
         program.Emit(new ComputeEffectiveAddress("main", index, scale));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         var addr = emulator.Memory.ResolveLabel("main");
         Assert.That(emulator.GetRegisterS(Register.ea), Is.EqualTo(addr + index * scale));
     }
@@ -115,13 +115,13 @@ public class DataTransferTests
         program.Emit(new ToProgramAbsolute(Register.ea, "data"));
         program.Emit(new LoadEffective(MisaType.Int32, Register.a0, displacement));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(expectedValue));
     }
 
@@ -140,13 +140,13 @@ public class DataTransferTests
         program.Emit(new ToProgramAbsolute(Register.ea, "data"));
         program.Emit(new StoreEffective(MisaType.Int32, displacement, 6742069));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         var addr = emulator.Memory.ResolveLabel("data");
         Assert.That(emulator.Memory.ReadInt(addr + displacement), Is.EqualTo(6742069));
     }
@@ -158,13 +158,13 @@ public class DataTransferTests
         program.Mark("main");
         program.Emit(new ToProgramRelative(Register.a0, MnemonimovEmulator.ReservedSpace + 5));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(5));
     }
 
@@ -175,10 +175,10 @@ public class DataTransferTests
         program.Mark("main");
         program.Emit(new ToProgramAbsolute(Register.ea, "main"));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
 
@@ -195,10 +195,10 @@ public class DataTransferTests
         program.Emit(new Push(42069));
         program.Emit(new Push(6742069));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(256, program);
         var stackStart = emulator.StackPointer;
         emulator.RunProcess("main");
@@ -208,9 +208,9 @@ public class DataTransferTests
         {
             Assert.That(stackStart - stackEnd, Is.EqualTo(16));
             Assert.That(emulator.Memory.ReadInt(stackEnd), Is.EqualTo(67));
-            Assert.That(emulator.Memory.ReadInt(stackEnd+4), Is.EqualTo(420));
-            Assert.That(emulator.Memory.ReadInt(stackEnd+8), Is.EqualTo(42069));
-            Assert.That(emulator.Memory.ReadInt(stackEnd+12), Is.EqualTo(6742069));
+            Assert.That(emulator.Memory.ReadInt(stackEnd + 4), Is.EqualTo(420));
+            Assert.That(emulator.Memory.ReadInt(stackEnd + 8), Is.EqualTo(42069));
+            Assert.That(emulator.Memory.ReadInt(stackEnd + 12), Is.EqualTo(6742069));
         }
     }
 
@@ -228,10 +228,10 @@ public class DataTransferTests
         program.Emit(new Pop(Register.a2));
         program.Emit(new Pop(Register.a3));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(256, program);
         var stackStart = emulator.StackPointer;
         emulator.RunProcess("main");
@@ -254,16 +254,19 @@ public class DataTransferTests
         {
             for (byte i = 0; i < 32; i++)
             {
-                yield return new TestCaseData(new Register(RegisterBank.Saved, i), 670000 + (int)i + (int)RegisterBank.Saved * 32);
+                yield return new TestCaseData(new Register(RegisterBank.Saved, i),
+                    670000 + (int)i + (int)RegisterBank.Saved * 32);
                 if (i < 16)
                 {
-                    yield return new TestCaseData(new Register(RegisterBank.Temporary, i), 670000 + (int)i + (int)RegisterBank.Temporary * 32);
-                    yield return new TestCaseData(new Register(RegisterBank.Argument, i), 670000 + (int)i + (int)RegisterBank.Argument * 32);
+                    yield return new TestCaseData(new Register(RegisterBank.Temporary, i),
+                        670000 + (int)i + (int)RegisterBank.Temporary * 32);
+                    yield return new TestCaseData(new Register(RegisterBank.Argument, i),
+                        670000 + (int)i + (int)RegisterBank.Argument * 32);
                 }
             }
         }
     }
-    
+
     [Test]
     [TestCaseSource(nameof(MoveData))]
     public static void ImmediateMoveWorks(Register target, int testValue)
@@ -272,33 +275,32 @@ public class DataTransferTests
         program.Mark("main");
         program.Emit(new Move(target, testValue));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(target), Is.EqualTo(testValue));
     }
-    
+
     [Test]
     [TestCaseSource(nameof(MoveData))]
     public static void RegisterMoveWorks(Register source, int value)
     {
-        
         var program = new Program();
         program.Mark("main");
         program.Emit(new Move(source, value));
         program.Emit(new Move(Register.fp, source));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(256, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.FramePointer, Is.EqualTo(value));
     }
 
@@ -311,13 +313,13 @@ public class DataTransferTests
         program.Emit(new Move(Register.cr, "true"));
         program.Emit(new ConditionalMove(Register.a0, 420));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(420));
     }
 
@@ -330,13 +332,13 @@ public class DataTransferTests
         program.Emit(new Move(Register.cr, "false"));
         program.Emit(new ConditionalMove(Register.a0, 420));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(67));
     }
 
@@ -348,17 +350,15 @@ public class DataTransferTests
         program.Emit(new Move(Register.cr, "true"));
         program.Emit(new Select(Register.a0, 67, 420));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(67));
     }
-    
-    
 
     [Test]
     public static void SelectSelectsSecondValueWhenFalse()
@@ -368,13 +368,34 @@ public class DataTransferTests
         program.Emit(new Move(Register.cr, "false"));
         program.Emit(new Select(Register.a0, 67, 420));
         program.Emit(new Exit());
-        
+
         Console.WriteLine("--- EMULATED PROGRAM ---");
         Console.WriteLine(program.Dump());
-        
+
         var emulator = new MnemonimovEmulator(0, program);
         emulator.RunProcess("main");
-        
+
         Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(420));
+    }
+
+
+    [Test]
+    public static void SwapWorks()
+    {
+        var program = new Program();
+        program.Mark("main");
+        program.Emit(new Move(Register.a0, 67));
+        program.Emit(new Move(Register.a1, 420));
+        program.Emit(new Swap(Register.a0, Register.a1));
+        program.Emit(new Exit());
+
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+
+        var emulator = new MnemonimovEmulator(0, program);
+        emulator.RunProcess("main");
+
+        Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(420));
+        Assert.That(emulator.GetRegisterS(Register.a1), Is.EqualTo(67));
     }
 }

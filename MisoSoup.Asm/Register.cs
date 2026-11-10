@@ -105,6 +105,13 @@ public readonly record struct Register(RegisterBank Bank, byte Number)
     public static Register sp = new Register(RegisterBank.Special, 5);
     public static Register fp = new Register(RegisterBank.Special, 6);
     public static Register pc = new Register(RegisterBank.Special, 7);
+
+    public static IReadOnlyList<Register> AllNormal =
+    [
+        a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, t0, t1, t2, t3, t4, t5, t6, t7, t8, t9,
+        t10, t11, t12, t13, t14, t15, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17,
+        s18, s19, s20, s21, s22, s23, s24, s25, s26, s27, s28, s29, s30, s31
+    ];
 }
 
 public readonly record struct RegisterVector(RegisterBank Bank, byte Start, byte Count)
