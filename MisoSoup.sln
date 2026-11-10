@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisoSoup", "MisoSoup\MisoSoup.csproj", "{AAA1C902-4FCB-4D57-A38C-FAE73D01CD73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisoSoup.Asm", "MisoSoup.Asm\MisoSoup.Asm.csproj", "{E45D58B6-D864-41D0-BAD3-8231B42912BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisoSoup.Asm.Emulation", "MisoSoup.Asm.Emulation\MisoSoup.Asm.Emulation.csproj", "{3BCFB521-A05E-43B3-8E62-45E0988466EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisoSoup.Asm.Emulation.Tests", "MisoSoup.Asm.Emulation.Tests\MisoSoup.Asm.Emulation.Tests.csproj", "{DA4C8032-8FC0-4277-B263-AFE9141E504B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAA1C902-4FCB-4D57-A38C-FAE73D01CD73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA1C902-4FCB-4D57-A38C-FAE73D01CD73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA1C902-4FCB-4D57-A38C-FAE73D01CD73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA1C902-4FCB-4D57-A38C-FAE73D01CD73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E45D58B6-D864-41D0-BAD3-8231B42912BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E45D58B6-D864-41D0-BAD3-8231B42912BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E45D58B6-D864-41D0-BAD3-8231B42912BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E45D58B6-D864-41D0-BAD3-8231B42912BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCFB521-A05E-43B3-8E62-45E0988466EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCFB521-A05E-43B3-8E62-45E0988466EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCFB521-A05E-43B3-8E62-45E0988466EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCFB521-A05E-43B3-8E62-45E0988466EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA4C8032-8FC0-4277-B263-AFE9141E504B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA4C8032-8FC0-4277-B263-AFE9141E504B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA4C8032-8FC0-4277-B263-AFE9141E504B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA4C8032-8FC0-4277-B263-AFE9141E504B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

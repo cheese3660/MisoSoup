@@ -1,0 +1,19 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADefaultInterpolatedStringHandler_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2026_002E2_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F77d2994f32f84ff283137ebf44feba98f4a728_003Fcb_003F500edc97_003FDefaultInterpolatedStringHandler_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8b73fdf9_002D6feb_002D4fb8_002D90bc_002D229f2ea45e03/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AProcessCanActuallyExecute" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.EmulationTests.AProcessCanActuallyExecute&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.ControlFlowTests.NopDoesNothing&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.ControlFlowTests.CallAndReturnWorks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.ControlFlowTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.DataTransferTests.LoadWorks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.DataTransferTests.StoreWorks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.DataTransferTests.PushWorks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.DataTransferTests.ImmediateMoveWorks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.DataTransferTests.RegisterMoveWorks&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::DA4C8032-8FC0-4277-B263-AFE9141E504B::net10.0::MisoSoup.Asm.Emulation.Tests.DataTransferTests.ConditionalMoveDoesNotMoveWhenFalse&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

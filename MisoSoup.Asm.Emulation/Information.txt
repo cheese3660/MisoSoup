@@ -1,0 +1,2 @@
+﻿This is a very simple emulator of the Mnemonimov Architecture, implementing everything necessary to be able to validate
+compiler behavior even with optimization, and what not

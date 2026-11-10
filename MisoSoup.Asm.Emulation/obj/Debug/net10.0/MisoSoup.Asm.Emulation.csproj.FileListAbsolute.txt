@@ -1,0 +1,15 @@
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\bin\Debug\net10.0\MisoSoup.Asm.Emulation.deps.json
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\bin\Debug\net10.0\MisoSoup.Asm.Emulation.dll
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\bin\Debug\net10.0\MisoSoup.Asm.Emulation.pdb
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\bin\Debug\net10.0\MisoSoup.Asm.dll
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\bin\Debug\net10.0\MisoSoup.Asm.pdb
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.csproj.AssemblyReference.cache
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.AssemblyInfoInputs.cache
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.AssemblyInfo.cs
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.csproj.CoreCompileInputs.cache
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.88F301F3.Up2Date
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.dll
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\refint\MisoSoup.Asm.Emulation.dll
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\MisoSoup.Asm.Emulation.pdb
+C:\Users\arall\RiderProjects\MisoSoup\MisoSoup.Asm.Emulation\obj\Debug\net10.0\ref\MisoSoup.Asm.Emulation.dll
