@@ -346,6 +346,35 @@ public class DataTransferTests
         var program = new Program();
         program.Mark("main");
         program.Emit(new Move(Register.cr, "true"));
-        program.Emit(new Select());
+        program.Emit(new Select(Register.a0, 67, 420));
+        program.Emit(new Exit());
+        
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+        
+        var emulator = new MnemonimovEmulator(0, program);
+        emulator.RunProcess("main");
+        
+        Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(67));
+    }
+    
+    
+
+    [Test]
+    public static void SelectSelectsSecondValueWhenFalse()
+    {
+        var program = new Program();
+        program.Mark("main");
+        program.Emit(new Move(Register.cr, "false"));
+        program.Emit(new Select(Register.a0, 67, 420));
+        program.Emit(new Exit());
+        
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+        
+        var emulator = new MnemonimovEmulator(0, program);
+        emulator.RunProcess("main");
+        
+        Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(420));
     }
 }
