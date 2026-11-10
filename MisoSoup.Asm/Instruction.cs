@@ -116,9 +116,9 @@ public record ComputeEffectiveAddress(Operand BaseAddress, Operand Index, Operan
     public override string Text => $"cea {BaseAddress}, {Index}, {Scale}";
 }
 
-public record LoadEffective(MisaType Type, Register Dest, Operand Displacement) : Instruction
+public record LoadEffective(MisaType Type, Register Destination, Operand Displacement) : Instruction
 {
-    public override string Text => $"lde {Type.AsString()}, {Dest}, {Displacement}";
+    public override string Text => $"lde {Type.AsString()}, {Destination}, {Displacement}";
 }
 
 public record StoreEffective(MisaType Type, Operand Displacement, Operand Value) : Instruction
@@ -272,10 +272,10 @@ public record DivideUnsigned(Register Destination, Operand Dividend, Operand Div
     public override string Text => $"divu {Destination}, {Dividend}, {Divisor}";
 }
 
-public record RemainderUnsigned(Register Destination, Operand Value, Operand Remainder)
+public record RemainderUnsigned(Register Destination, Operand Dividend, Operand Divisor)
     : Instruction
 {
-    public override string Text => $"remu {Destination}, {Value}, {Remainder}";
+    public override string Text => $"remu {Destination}, {Dividend}, {Divisor}";
 }
 
 public record MinimumUnsigned(Register Destination, Operand A, Operand B)
@@ -289,10 +289,10 @@ public record MaximumUnsigned(Register Destination, Operand A, Operand B) : Inst
     public override string Text => $"maxu {Destination}, {A}, {B}";
 }
 
-public record ClampUnsigned(Register Destination, Operand Value, Operand A, Operand B)
+public record ClampUnsigned(Register Destination, Operand Value, Operand Min, Operand Max)
     : Instruction
 {
-    public override string Text => $"clpu {Destination}, {Value}, {A}, {B}";
+    public override string Text => $"clpu {Destination}, {Value}, {Min}, {Max}";
 }
 
 #endregion

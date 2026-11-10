@@ -25,8 +25,8 @@ public partial class MnemonimovEmulator
 
     public int EffectiveAddress
     {
-        get => _argumentRegisters[2];
-        set => _argumentRegisters[2] = value;
+        get => _specialRegisters[2];
+        set => _specialRegisters[2] = value;
     }
     
     public int ProgramAddress => _specialRegisters[3];
@@ -34,20 +34,20 @@ public partial class MnemonimovEmulator
 
     public int StackPointer
     {
-        get => _argumentRegisters[5];
-        set => _argumentRegisters[5] = value;
+        get => _specialRegisters[5];
+        set => _specialRegisters[5] = value;
     }
 
     public int FramePointer
     {
-        get => _argumentRegisters[6];
-        set => _argumentRegisters[6] = value;
+        get => _specialRegisters[6];
+        set => _specialRegisters[6] = value;
     }
 
     public int ProgramCounter
     {
-        get => _argumentRegisters[7];
-        set => _argumentRegisters[7] = value;
+        get => _specialRegisters[7];
+        set => _specialRegisters[7] = value;
     }
 
     private static readonly bool[] WriteableSpecialRegisters = [false, true, true, false, false, true, true, true];
@@ -73,7 +73,7 @@ public partial class MnemonimovEmulator
             _ => throw new ArgumentOutOfRangeException()
         };
 
-    public void SetRegisterS(Register register, int value)
+    public void SetRegister(Register register, int value)
     {
         switch (register.Bank)
         {
@@ -99,11 +99,11 @@ public partial class MnemonimovEmulator
 
     public uint GetRegisterU(Register register) => Unsafe.BitCast<int, uint>(GetRegisterS(register));
 
-    public void SetRegisterU(Register register, uint value) => SetRegisterS(register, Unsafe.BitCast<uint, int>(value));
+    public void SetRegister(Register register, uint value) => SetRegister(register, Unsafe.BitCast<uint, int>(value));
     
     public float GetRegisterF(Register register) => Unsafe.BitCast<int, float>(GetRegisterS(register));
     
-    public void SetRegisterF(ref Register register, float value) => SetRegisterS(register, Unsafe.BitCast<float, int>(value));
+    public void SetRegister(Register register, float value) => SetRegister(register, Unsafe.BitCast<float, int>(value));
 
     public List<int> GetRegisterVectorS(RegisterVector registers)
     {
@@ -165,4 +165,34 @@ public partial class MnemonimovEmulator
     {
         _instructions[instruction.GetType()](this, instruction);
     }
+
+    public int GetOperandS(Operand operand) => operand switch
+    {
+        DefinedOperand definedOperand => Memory.ResolveLabel(_instructionSource, definedOperand.Label),
+        FloatOperand floatOperand => Unsafe.BitCast<float, int>(floatOperand.Value),
+        IntegerOperand integerOperand => integerOperand.Value,
+        RegisterOperand registerOperand => GetRegisterS(registerOperand.Register),
+        UnsignedOperand unsignedOperand => Unsafe.BitCast<uint, int>(unsignedOperand.Value),
+        _ => throw new ArgumentOutOfRangeException(nameof(operand))
+    };
+
+    public uint GetOperandU(Operand operand) => operand switch
+    {
+        DefinedOperand definedOperand => Unsafe.BitCast<int, uint>(Memory.ResolveLabel(_instructionSource, definedOperand.Label)),
+        FloatOperand floatOperand => Unsafe.BitCast<float, uint>(floatOperand.Value),
+        IntegerOperand integerOperand => Unsafe.BitCast<int, uint>(integerOperand.Value),
+        RegisterOperand registerOperand => GetRegisterU(registerOperand.Register),
+        UnsignedOperand unsignedOperand => unsignedOperand.Value,
+        _ => throw new ArgumentOutOfRangeException(nameof(operand))
+    };
+
+    public float GetOperandF(Operand operand) => operand switch
+    {
+        DefinedOperand definedOperand => Unsafe.BitCast<int, float>(Memory.ResolveLabel(_instructionSource, definedOperand.Label)),
+        FloatOperand floatOperand => floatOperand.Value,
+        IntegerOperand integerOperand => Unsafe.BitCast<int, float>(integerOperand.Value),
+        RegisterOperand registerOperand => GetRegisterF(registerOperand.Register),
+        UnsignedOperand unsignedOperand => Unsafe.BitCast<uint, float>(unsignedOperand.Value),
+        _ => throw new ArgumentOutOfRangeException(nameof(operand))
+    };
 }

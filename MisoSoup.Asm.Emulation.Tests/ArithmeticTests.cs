@@ -541,6 +541,33 @@ public class ArithmeticTests
     }
 
     [Test]
+    [TestCase(5, 10, 0, 5)]
+    [TestCase(-5, 10, 0, 0)]
+    [TestCase(15, 10, 0, 10)]
+    [TestCase(10, 10, 0, 10)]
+    [TestCase(0, 10, 0, 0)]
+    [TestCase(0, 1, -1, 0)]
+    [TestCase(5, -1, -10, -1)]
+    [TestCase(-20, -1, -10, -10)]
+    [TestCase(int.MinValue, int.MaxValue, int.MinValue, int.MinValue)]
+    [TestCase(int.MaxValue, int.MaxValue, int.MinValue, int.MaxValue)]
+    public void ClampSwapsBoundsWhenMaxLessThanMin(int value, int min, int max, int expected)
+    {
+        var program = new Program();
+        program.Mark("main");
+        program.Emit(new Clamp(Register.a0, value, min, max));
+        program.Emit(new Exit());
+
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+
+        var emulator = new MnemonimovEmulator(0, program);
+        emulator.RunProcess("main");
+
+        Assert.That(emulator.GetRegisterS(Register.a0), Is.EqualTo(expected));
+    }
+
+    [Test]
     [TestCase(4_000_000_000, 4_000_000_000)]
     [TestCase(4_000_000_000, 5u)]
     [TestCase(uint.MaxValue, uint.MaxValue)]
@@ -686,5 +713,30 @@ public class ArithmeticTests
         emulator.RunProcess("main");
         
         Assert.That(emulator.GetRegisterU(Register.a0), Is.EqualTo(uint.Clamp(a, b,c)));
+    }
+
+    [Test]
+    [TestCase(5u, 10u, 0u, 5u)]
+    [TestCase(15u, 10u, 0u, 10u)]
+    [TestCase(10u, 10u, 0u, 10u)]
+    [TestCase(0u, 10u, 0u, 0u)]
+    [TestCase(0x80000000u, 0x7FFFFFFFu, 0u, 0x7FFFFFFFu)]
+    [TestCase(5u, uint.MaxValue, 0x80000000u, 0x80000000u)]
+    [TestCase(uint.MaxValue, uint.MaxValue, 0x80000000u, uint.MaxValue)]
+    [TestCase(5u, 0xFFFFFFFFu, 0xFFFFFFF6u, 0xFFFFFFF6u)]
+    public void ClampUnsignedSwapsBoundsWhenMaxLessThanMin(uint value, uint min, uint max, uint expected)
+    {
+        var program = new Program();
+        program.Mark("main");
+        program.Emit(new ClampUnsigned(Register.a0, value, min, max));
+        program.Emit(new Exit());
+
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+
+        var emulator = new MnemonimovEmulator(0, program);
+        emulator.RunProcess("main");
+
+        Assert.That(emulator.GetRegisterU(Register.a0), Is.EqualTo(expected));
     }
 }

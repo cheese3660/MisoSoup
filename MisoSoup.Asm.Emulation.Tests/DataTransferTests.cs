@@ -294,10 +294,10 @@ public class DataTransferTests
         using (Assert.EnterMultipleScope())
         {
             Assert.That(stackStart - stackEnd, Is.EqualTo(16));
-            Assert.That(emulator.Memory.ReadInt(stackEnd), Is.EqualTo(67));
-            Assert.That(emulator.Memory.ReadInt(stackEnd + 4), Is.EqualTo(420));
-            Assert.That(emulator.Memory.ReadInt(stackEnd + 8), Is.EqualTo(42069));
-            Assert.That(emulator.Memory.ReadInt(stackEnd + 12), Is.EqualTo(6742069));
+            Assert.That(emulator.Memory.ReadInt(stackEnd), Is.EqualTo(6742069));
+            Assert.That(emulator.Memory.ReadInt(stackEnd + 4), Is.EqualTo(42069));
+            Assert.That(emulator.Memory.ReadInt(stackEnd + 8), Is.EqualTo(420));
+            Assert.That(emulator.Memory.ReadInt(stackEnd + 12), Is.EqualTo(67));
         }
     }
 
