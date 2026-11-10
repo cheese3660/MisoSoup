@@ -227,16 +227,18 @@ public class ArithmeticTests
     [TestCase(-2, 3, -8)]
     [TestCase(10, 5, 100_000)]
     [TestCase(366634, 0, 1)]
+    // The game computes (int)Math.Round(Math.Pow(b, e)) on .NET 8 x64, where an out-of-range
+    // double -> int conversion yields int.MinValue rather than wrapping or saturating
     [TestCase(2, 31, int.MinValue)]
-    [TestCase(2, 32, 0)]
+    [TestCase(2, 32, int.MinValue)]
     [TestCase(-2, 31, int.MinValue)]
     [TestCase(0, 0, 1)]
     [TestCase(0, 5, 0)]
     [TestCase(-1, 3, -1)]
     [TestCase(-1, 4, 1)]
-    [TestCase(3, 21, 1870418611)]
+    [TestCase(3, 21, int.MinValue)]
     [TestCase(int.MaxValue, 1, int.MaxValue)]
-    [TestCase(int.MaxValue, 2, 1)]
+    [TestCase(int.MaxValue, 2, int.MinValue)]
     public void PowerWorks(int b, int e, int r)
     {
         var program = new Program();

@@ -39,18 +39,12 @@ public partial class MnemonimovEmulator
         SetRegister(fma.Destination, GetOperandS(fma.A) * GetOperandS(fma.B) + GetOperandS(fma.C));
     }
 
-    // Exponentiation by squaring
+    // The game runs on .NET 8 x64, where an out-of-range or NaN double -> int conversion yields int.MinValue.
+    // .NET 9+ saturates instead, so the range check is done explicitly.
     private static int IntPow(int b, int e)
     {
-        var result = 1;
-        while (e > 0)
-        {
-            if ((e & 1) != 0)
-                result *= b;
-            e >>= 1;
-            b *= b;
-        }
-        return result;
+        var result = Math.Round(Math.Pow(b, e));
+        return result >= int.MinValue && result <= int.MaxValue ? (int)result : int.MinValue;
     }
 
     public void Execute(Power pow)
