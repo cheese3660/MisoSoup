@@ -122,8 +122,8 @@ public class MachineMemory
                                 newMemory[off] = (byte)definition;
                                 break;
                             }
-                            case IntegerOperand integerOperand:
-                                newMemory[off] = (byte)integerOperand.Value;
+                            case IntegerOperand or UnsignedOperand:
+                                newMemory[off] = (byte)CheckedEmbedValue(operand, embed.Type);
                                 break;
                             default:
                                 throw new Exception("Unsupported embedded operand");
@@ -142,9 +142,9 @@ public class MachineMemory
                                 newMemory[off + 1] = bytes[1];
                                 break;
                             }
-                            case IntegerOperand integerOperand:
+                            case IntegerOperand or UnsignedOperand:
                             {
-                                var bytes = EndiannessUtility.GetBytes((short)(ushort)integerOperand.Value);
+                                var bytes = EndiannessUtility.GetBytes((short)CheckedEmbedValue(operand, embed.Type));
                                 newMemory[off] = bytes[0];
                                 newMemory[off + 1] = bytes[1];
                                 break;
@@ -169,9 +169,9 @@ public class MachineMemory
                                 newMemory[off + 3] = bytes[3];
                                 break;
                             }
-                            case IntegerOperand integerOperand:
+                            case IntegerOperand or UnsignedOperand:
                             {
-                                var bytes = EndiannessUtility.GetBytes(integerOperand.Value);
+                                var bytes = EndiannessUtility.GetBytes((int)CheckedEmbedValue(operand, embed.Type));
                                 newMemory[off] = bytes[0];
                                 newMemory[off + 1] = bytes[1];
                                 newMemory[off + 2] = bytes[2];
@@ -193,8 +193,8 @@ public class MachineMemory
                                 newMemory[off] = (byte)(sbyte)definition;
                                 break;
                             }
-                            case IntegerOperand integerOperand:
-                                newMemory[off] = (byte)(sbyte)integerOperand.Value;
+                            case IntegerOperand or UnsignedOperand:
+                                newMemory[off] = (byte)CheckedEmbedValue(operand, embed.Type);
                                 break;
                             default:
                                 throw new Exception("Unsupported embedded operand");
@@ -213,9 +213,9 @@ public class MachineMemory
                                 newMemory[off + 1] = bytes[1];
                                 break;
                             }
-                            case IntegerOperand integerOperand:
+                            case IntegerOperand or UnsignedOperand:
                             {
-                                var bytes = EndiannessUtility.GetBytes((short)integerOperand.Value);
+                                var bytes = EndiannessUtility.GetBytes((short)CheckedEmbedValue(operand, embed.Type));
                                 newMemory[off] = bytes[0];
                                 newMemory[off + 1] = bytes[1];
                                 break;
@@ -242,6 +242,15 @@ public class MachineMemory
                             case IntegerOperand integerOperand:
                             {
                                 var bytes = EndiannessUtility.GetBytes((float)integerOperand.Value);
+                                newMemory[off] = bytes[0];
+                                newMemory[off + 1] = bytes[1];
+                                newMemory[off + 2] = bytes[2];
+                                newMemory[off + 3] = bytes[3];
+                                break;
+                            }
+                            case UnsignedOperand unsignedOperand:
+                            {
+                                var bytes = EndiannessUtility.GetBytes((float)unsignedOperand.Value);
                                 newMemory[off] = bytes[0];
                                 newMemory[off + 1] = bytes[1];
                                 newMemory[off + 2] = bytes[2];
@@ -282,6 +291,33 @@ public class MachineMemory
 
         Memory = [.. newMemory];
         Program = program;
+    }
+
+    // Integer and unsigned operands are accepted under any integer type, as long as the value fits in that type's range
+    private static long CheckedEmbedValue(Operand operand, MisaType type)
+    {
+        long value = operand switch
+        {
+            IntegerOperand integerOperand => integerOperand.Value,
+            UnsignedOperand unsignedOperand => unsignedOperand.Value,
+            _ => throw new Exception("Unsupported embedded operand")
+        };
+
+        (long Min, long Max) range = type switch
+        {
+            MisaType.Uint8 => (byte.MinValue, byte.MaxValue),
+            MisaType.Uint16 => (ushort.MinValue, ushort.MaxValue),
+            MisaType.Uint32 => (uint.MinValue, uint.MaxValue),
+            MisaType.Int8 => (sbyte.MinValue, sbyte.MaxValue),
+            MisaType.Int16 => (short.MinValue, short.MaxValue),
+            MisaType.Int32 => (int.MinValue, int.MaxValue),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+
+        if (value < range.Min || value > range.Max)
+            throw new Exception($"Embedded value {value} does not fit in {type.AsString()}");
+
+        return value;
     }
 
     public int ResolveLabel(int sourceAddress, string label)

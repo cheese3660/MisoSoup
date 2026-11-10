@@ -4,6 +4,7 @@ public abstract record Operand
 {
     public static implicit operator Operand(string s) => new DefinedOperand(s);
     public static implicit operator Operand(int i) => new IntegerOperand(i);
+    public static implicit operator Operand(uint u) => new UnsignedOperand(u);
     public static implicit operator Operand(float f) => new FloatOperand(f);
     public static implicit operator Operand(Register r) => new RegisterOperand(r);
     public static implicit operator Operand(RegisterVector v) => new VectorOperand(v);
@@ -25,6 +26,11 @@ public record DefinedOperand(string Label) : Operand
 }
 
 public record IntegerOperand(int Value) : Operand
+{
+    public override string ToString() => $"{Value}";
+}
+
+public record UnsignedOperand(uint Value) : Operand
 {
     public override string ToString() => $"{Value}";
 }

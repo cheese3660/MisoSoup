@@ -3,25 +3,15 @@
 public class DataTransferTests
 {
     [Test]
-    [TestCase(MisaType.Uint8, 67)]
     [TestCase(MisaType.Int8, -5)]
-    [TestCase(MisaType.Uint16, 666)]
     [TestCase(MisaType.Int16, -420)]
-    [TestCase(MisaType.Uint32, 666000)]
     [TestCase(MisaType.Int32, -250000)]
-    [TestCase(MisaType.Uint8, 0)]
-    [TestCase(MisaType.Uint8, 255)]
-    [TestCase(MisaType.Uint8, 128)]
     [TestCase(MisaType.Int8, -128)]
     [TestCase(MisaType.Int8, 127)]
     [TestCase(MisaType.Int8, -1)]
-    [TestCase(MisaType.Uint16, 65535)]
-    [TestCase(MisaType.Uint16, 32768)]
     [TestCase(MisaType.Int16, -32768)]
     [TestCase(MisaType.Int16, 32767)]
     [TestCase(MisaType.Int16, -1)]
-    [TestCase(MisaType.Uint32, -1)]
-    [TestCase(MisaType.Uint32, int.MinValue)]
     [TestCase(MisaType.Int32, int.MinValue)]
     [TestCase(MisaType.Int32, int.MaxValue)]
     [TestCase(MisaType.Int32, 0)]
@@ -44,27 +34,90 @@ public class DataTransferTests
     }
 
     [Test]
-    [TestCase(MisaType.Uint8, 67)]
+    [TestCase(MisaType.Uint8, 67u)]
+    [TestCase(MisaType.Uint16, 666u)]
+    [TestCase(MisaType.Uint32, 666000u)]
+    [TestCase(MisaType.Uint8, 0u)]
+    [TestCase(MisaType.Uint8, 255u)]
+    [TestCase(MisaType.Uint8, 128u)]
+    [TestCase(MisaType.Uint16, 65535u)]
+    [TestCase(MisaType.Uint16, 32768u)]
+    [TestCase(MisaType.Uint32, 0x80000000u)]
+    [TestCase(MisaType.Uint32, 4_000_000_000u)]
+    [TestCase(MisaType.Uint32, uint.MaxValue)]
+    public static void LoadUnsignedWorks(MisaType type, uint val)
+    {
+        var program = new Program();
+        program.Mark("data");
+        program.Emit(new Embed(type, val));
+        program.Mark("main");
+        program.Emit(new Load(type, Register.a0, "data"));
+        program.Emit(new Exit());
+
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+
+        var emulator = new MnemonimovEmulator(4, program);
+        emulator.RunProcess("main");
+
+        Assert.That(emulator.GetRegisterU(Register.a0), Is.EqualTo(val));
+    }
+
+    [Test]
     [TestCase(MisaType.Int8, -5)]
-    [TestCase(MisaType.Uint16, 666)]
     [TestCase(MisaType.Int16, -420)]
-    [TestCase(MisaType.Uint32, 666000)]
     [TestCase(MisaType.Int32, -250000)]
-    [TestCase(MisaType.Uint8, 0)]
-    [TestCase(MisaType.Uint8, 255)]
-    [TestCase(MisaType.Uint8, 128)]
     [TestCase(MisaType.Int8, -128)]
     [TestCase(MisaType.Int8, 127)]
     [TestCase(MisaType.Int8, -1)]
-    [TestCase(MisaType.Uint16, 65535)]
-    [TestCase(MisaType.Uint16, 32768)]
     [TestCase(MisaType.Int16, -32768)]
     [TestCase(MisaType.Int16, 32767)]
-    [TestCase(MisaType.Uint32, int.MaxValue)]
     [TestCase(MisaType.Int32, int.MinValue)]
     [TestCase(MisaType.Int32, int.MaxValue)]
     [TestCase(MisaType.Int32, -1)]
     public static void StoreWorks(MisaType type, int val)
+    {
+        var program = new Program();
+        program.Mark("data");
+        program.Emit(new Reserve(type, 1));
+        program.Mark("main");
+        program.Emit(new Store(type, "data", val));
+        program.Emit(new Exit());
+
+        Console.WriteLine("--- EMULATED PROGRAM ---");
+        Console.WriteLine(program.Dump());
+
+        var emulator = new MnemonimovEmulator(4, program);
+        emulator.RunProcess("main");
+
+        var addr = emulator.Memory.ResolveLabel("data");
+        switch (type)
+        {
+            case MisaType.Int8:
+                Assert.That(emulator.Memory.ReadSbyte(addr), Is.EqualTo(val));
+                break;
+            case MisaType.Int16:
+                Assert.That(emulator.Memory.ReadShort(addr), Is.EqualTo(val));
+                break;
+            case MisaType.Int32:
+                Assert.That(emulator.Memory.ReadInt(addr), Is.EqualTo(val));
+                break;
+        }
+    }
+
+    [Test]
+    [TestCase(MisaType.Uint8, 67u)]
+    [TestCase(MisaType.Uint16, 666u)]
+    [TestCase(MisaType.Uint32, 666000u)]
+    [TestCase(MisaType.Uint8, 0u)]
+    [TestCase(MisaType.Uint8, 255u)]
+    [TestCase(MisaType.Uint8, 128u)]
+    [TestCase(MisaType.Uint16, 65535u)]
+    [TestCase(MisaType.Uint16, 32768u)]
+    [TestCase(MisaType.Uint32, 0x80000000u)]
+    [TestCase(MisaType.Uint32, 4_000_000_000u)]
+    [TestCase(MisaType.Uint32, uint.MaxValue)]
+    public static void StoreUnsignedWorks(MisaType type, uint val)
     {
         var program = new Program();
         program.Mark("data");
@@ -90,15 +143,6 @@ public class DataTransferTests
                 break;
             case MisaType.Uint32:
                 Assert.That(emulator.Memory.ReadUInt(addr), Is.EqualTo(val));
-                break;
-            case MisaType.Int8:
-                Assert.That(emulator.Memory.ReadSbyte(addr), Is.EqualTo(val));
-                break;
-            case MisaType.Int16:
-                Assert.That(emulator.Memory.ReadShort(addr), Is.EqualTo(val));
-                break;
-            case MisaType.Int32:
-                Assert.That(emulator.Memory.ReadInt(addr), Is.EqualTo(val));
                 break;
         }
     }

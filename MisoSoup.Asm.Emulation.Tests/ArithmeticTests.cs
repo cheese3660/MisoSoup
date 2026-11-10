@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace MisoSoup.Asm.Emulation.Tests;
+﻿namespace MisoSoup.Asm.Emulation.Tests;
 
 public class ArithmeticTests
 {
@@ -555,7 +553,7 @@ public class ArithmeticTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new MultiplyHighUnsigned(Register.a0, Unsafe.BitCast<uint, int>(a), Unsafe.BitCast<uint, int>(b)));
+        program.Emit(new MultiplyHighUnsigned(Register.a0, a, b));
         program.Emit(new Exit());
         
         Console.WriteLine("--- EMULATED PROGRAM ---");
@@ -581,7 +579,7 @@ public class ArithmeticTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new DivideUnsigned(Register.a0, Unsafe.BitCast<uint, int>(a), Unsafe.BitCast<uint, int>(b)));
+        program.Emit(new DivideUnsigned(Register.a0, a, b));
         program.Emit(new Exit());
         
         Console.WriteLine("--- EMULATED PROGRAM ---");
@@ -606,7 +604,7 @@ public class ArithmeticTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new RemainderUnsigned(Register.a0, Unsafe.BitCast<uint, int>(a), Unsafe.BitCast<uint, int>(b)));
+        program.Emit(new RemainderUnsigned(Register.a0, a, b));
         program.Emit(new Exit());
         
         Console.WriteLine("--- EMULATED PROGRAM ---");
@@ -629,7 +627,7 @@ public class ArithmeticTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new MinimumUnsigned(Register.a0, Unsafe.BitCast<uint, int>(a), Unsafe.BitCast<uint, int>(b)));
+        program.Emit(new MinimumUnsigned(Register.a0, a, b));
         program.Emit(new Exit());
         
         Console.WriteLine("--- EMULATED PROGRAM ---");
@@ -652,7 +650,7 @@ public class ArithmeticTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new MaximumUnsigned(Register.a0, Unsafe.BitCast<uint, int>(a), Unsafe.BitCast<uint, int>(b)));
+        program.Emit(new MaximumUnsigned(Register.a0, a, b));
         program.Emit(new Exit());
         
         Console.WriteLine("--- EMULATED PROGRAM ---");
@@ -678,7 +676,7 @@ public class ArithmeticTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new ClampUnsigned(Register.a0, Unsafe.BitCast<uint, int>(a), Unsafe.BitCast<uint, int>(b), Unsafe.BitCast<uint, int>(c)));
+        program.Emit(new ClampUnsigned(Register.a0, a, b, c));
         program.Emit(new Exit());
         
         Console.WriteLine("--- EMULATED PROGRAM ---");
