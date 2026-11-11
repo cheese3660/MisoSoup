@@ -4,7 +4,6 @@ namespace MisoSoup.Asm.Emulation;
 
 public partial class MnemonimovEmulator
 {
-    private const float Epsilon = 0.0001f;
     public void Execute(Compare cmp)
     {
         ComparisonResult = cmp.Condition switch

@@ -9,6 +9,7 @@ public partial class MnemonimovEmulator
     // validate the results
 
     public const int ReservedSpace = 256;
+    public const float Epsilon = 0.0001f;
     
     private readonly int[] _argumentRegisters = new int[16];
     private readonly int[] _temporaryRegisters = new int[16];
