@@ -8,6 +8,7 @@ public abstract record Operand
     public static implicit operator Operand(float f) => new FloatOperand(f);
     public static implicit operator Operand(Register r) => new RegisterOperand(r);
     public static implicit operator Operand(RegisterVector v) => new VectorOperand(v);
+    public static implicit operator Operand(bool v) => new DefinedOperand(v ? "true" : "false");
 }
 
 public record RegisterOperand(Register Register) : Operand
@@ -37,10 +38,7 @@ public record UnsignedOperand(uint Value) : Operand
 
 public record FloatOperand(float Value) : Operand
 {
-    public override string ToString() =>
-        float.IsPositiveInfinity(Value) ? "INF" :
-        float.IsNegativeInfinity(Value) ? "-INF" :
-        float.IsNaN(Value) ? "NAN" : $"{Value}";
+    public override string ToString() => Value.MisaFloat();
 }
 
 public record StringOperand(string Value) : Operand

@@ -123,7 +123,7 @@ public class ControlFlowTests
         program.Emit(new Move(Register.a0, 1));
         program.Emit(new Exit());
         program.Mark("main");
-        program.Emit(new Move(Register.cr, "true"));
+        program.Emit(new Move(Register.cr, true));
         program.Emit(new JumpTrue("target"));
         program.Emit(new Exit());
         
@@ -164,7 +164,7 @@ public class ControlFlowTests
         program.Emit(new Exit());
         program.Mark("main");
         program.Emit(new Move(Register.t0, "target"));
-        program.Emit(new Move(Register.cr, "true"));
+        program.Emit(new Move(Register.cr, true));
         program.Emit(new JumpTruePa(Register.t0));
         program.Emit(new Exit());
         
@@ -222,7 +222,7 @@ public class ControlFlowTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new Move(Register.cr, "true"));
+        program.Emit(new Move(Register.cr, true));
         program.Emit(new JumpFalse("target"));
         program.Emit(new Move(Register.a0, 1));
         program.Mark("target");
@@ -266,7 +266,7 @@ public class ControlFlowTests
         var program = new Program();
         program.Mark("main");
         program.Emit(new Move(Register.t0, "target"));
-        program.Emit(new Move(Register.cr, "true"));
+        program.Emit(new Move(Register.cr, true));
         program.Emit(new JumpFalsePa(Register.t0));
         program.Emit(new Move(Register.a0, 1));
         program.Mark("target");

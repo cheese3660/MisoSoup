@@ -397,7 +397,7 @@ public class DataTransferTests
         var program = new Program();
         program.Mark("main");
         program.Emit(new Move(Register.a0, 67));
-        program.Emit(new Move(Register.cr, "true"));
+        program.Emit(new Move(Register.cr, true));
         program.Emit(new ConditionalMove(Register.a0, 420));
         program.Emit(new Exit());
 
@@ -416,7 +416,7 @@ public class DataTransferTests
         var program = new Program();
         program.Mark("main");
         program.Emit(new Move(Register.a0, 67));
-        program.Emit(new Move(Register.cr, "false"));
+        program.Emit(new Move(Register.cr, false));
         program.Emit(new ConditionalMove(Register.a0, 420));
         program.Emit(new Exit());
 
@@ -434,7 +434,7 @@ public class DataTransferTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new Move(Register.cr, "true"));
+        program.Emit(new Move(Register.cr, true));
         program.Emit(new Select(Register.a0, 67, 420));
         program.Emit(new Exit());
 
@@ -452,7 +452,7 @@ public class DataTransferTests
     {
         var program = new Program();
         program.Mark("main");
-        program.Emit(new Move(Register.cr, "false"));
+        program.Emit(new Move(Register.cr, false));
         program.Emit(new Select(Register.a0, 67, 420));
         program.Emit(new Exit());
 
