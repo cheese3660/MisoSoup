@@ -855,7 +855,7 @@ public class FloatingPointTests
         var emulator = new MnemonimovEmulator(0, program);
 
         emulator.RunProcess("main");
-        Assert.That(emulator.GetOperandF(Register.a0), Is.EqualTo(float.Round(a)));
+        Assert.That(emulator.GetOperandF(Register.a0), Is.EqualTo(float.Round(a, MidpointRounding.ToEven)));
     }
 
     [TestCase(0.0f)]
