@@ -106,23 +106,48 @@ public partial class MnemonimovEmulator
     
     public void SetRegister(Register register, float value) => SetRegister(register, Unsafe.BitCast<float, int>(value));
 
-    public List<int> GetRegisterVectorS(RegisterVector registers)
+    public int[] GetRegisterVectorS(RegisterVector registers)
     {
         return registers.Bank switch
         {
-            RegisterBank.Temporary => [.. _temporaryRegisters[registers.Start .. (registers.Start + registers.Count)]],
-            RegisterBank.Argument => [.. _argumentRegisters[registers.Start .. (registers.Start + registers.Count)]],
-            RegisterBank.Saved => [.. _savedRegisters[registers.Start .. (registers.Start + registers.Count)]],
+            RegisterBank.Temporary => _temporaryRegisters[registers.Start .. (registers.Start + registers.Count)],
+            RegisterBank.Argument => _argumentRegisters[registers.Start .. (registers.Start + registers.Count)],
+            RegisterBank.Saved => _savedRegisters[registers.Start .. (registers.Start + registers.Count)],
             _ => throw new ArgumentOutOfRangeException()
         };
     }
 
-    public List<uint> GetRegisterVectorU(RegisterVector registers) =>
+    public uint[] GetRegisterVectorU(RegisterVector registers) =>
         [.. GetRegisterVectorS(registers).Select(Unsafe.BitCast<int, uint>)];
 
-    public List<float> GetRegisterVectorF(RegisterVector registers) =>
+    public float[] GetRegisterVectorF(RegisterVector registers) =>
         [.. GetRegisterVectorS(registers).Select(Unsafe.BitCast<int, float>)];
 
+    public void SetRegister(RegisterVector registers, params int[] values)
+    {
+        switch (registers.Bank)
+        {
+            case RegisterBank.Temporary:
+                // _temporaryRegisters[registers.Start .. (registers.Start + registers.Count - 1)] = ;
+                Array.Copy(values, 0, _temporaryRegisters, registers.Start, registers.Count);
+                break;
+            case RegisterBank.Argument:
+                Array.Copy(values, 0, _argumentRegisters, registers.Start, registers.Count);
+                break;
+            case RegisterBank.Saved:
+                Array.Copy(values, 0, _savedRegisters, registers.Start, registers.Count);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+    
+    public void SetRegister(RegisterVector registers, params uint[] values) => SetRegister(registers,
+        [.. values.Select(Unsafe.BitCast<uint, int>)]);
+    
+    public void SetRegister(RegisterVector registers, params float[] values) => SetRegister(registers,
+        [.. values.Select(Unsafe.BitCast<float, int>)]); 
+    
     private bool _exited;
     private int _instructionSource;
     
@@ -195,5 +220,23 @@ public partial class MnemonimovEmulator
         RegisterOperand registerOperand => GetRegisterF(registerOperand.Register),
         UnsignedOperand unsignedOperand => Unsafe.BitCast<uint, float>(unsignedOperand.Value),
         _ => throw new ArgumentOutOfRangeException(nameof(operand))
+    };
+
+    public int[] GetOperandVectorS(Operand operand, byte count) => operand switch
+    {
+        VectorOperand vo => GetRegisterVectorS(vo.Vector),
+        _ => [.. Enumerable.Repeat(GetOperandS(operand), count)]
+    };
+
+    public uint[] GetOperandVectorU(Operand operand, byte count) => operand switch
+    {
+        VectorOperand vo => GetRegisterVectorU(vo.Vector),
+        _ => [.. Enumerable.Repeat(GetOperandU(operand), count)]
+    };
+
+    public float[] GetOperandVectorF(Operand operand, byte count) => operand switch
+    {
+        VectorOperand vo => GetRegisterVectorF(vo.Vector),
+        _ => [.. Enumerable.Repeat(GetOperandF(operand), count)]
     };
 }

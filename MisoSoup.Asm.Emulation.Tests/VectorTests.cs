@@ -144,7 +144,7 @@ public class VectorTests
         program.Mark("main");
         program.Emit(new Move(Register.a0, 33.5f));
         program.Emit(new Move(Register.a1, 210.0f));
-        program.Emit(new Move(Register.a2, 35.5f));
+        program.Emit(new Move(Register.a2, 34.5f));
         program.Emit(new VectorFloatMultiply(Register.a0 + 3, Register.a0 + 3, 2f));
         program.Emit(new Exit());
 
@@ -194,7 +194,7 @@ public class VectorTests
         program.Mark("main");
         program.Emit(new Move(Register.a0, 67f * 2.5f));
         program.Emit(new Move(Register.a1, 420f * 2.5f));
-        program.Emit(new Move(Register.a2, -35f * 2.5f));
+        program.Emit(new Move(Register.a2, 69f * 2.5f));
         program.Emit(new VectorFloatDivide(Register.a0 + 3, Register.a0 + 3, 2.5f));
         program.Emit(new Exit());
 
